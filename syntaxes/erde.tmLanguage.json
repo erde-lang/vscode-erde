@@ -1,32 +1,74 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "Erde",
+  "scopeName": "source.erde",
   "patterns": [
-    {
-      "include": "#keywords"
-    },
-    {
-      "include": "#strings"
-    }
+    { "include": "#constants" },
+    { "include": "#keywords" },
+    { "include": "#strings" }
   ],
   "repository": {
-    "keywords": {
-      "patterns": [{
-        "name": "keyword.control.erde",
-        "match": "\\b(if|while|for|return)\\b"
-      }]
-    },
-    "strings": {
-      "name": "string.quoted.double.erde",
-      "begin": "\"",
-      "end": "\"",
+    "constants": {
       "patterns": [
         {
-          "name": "constant.character.escape.erde",
-          "match": "\\\\."
+          "name": "constant.language",
+          "match": "\\b(nil|true|false)\\b"
+        },
+        {
+          "name": "constant.numeric.float.hexadecimal.erde",
+          "match": "(?<![\\w\\d.])0[xX][0-9A-Fa-f]+(\\.[0-9A-Fa-f]+)?([eE]-?\\d*)?([pP][-+]\\d+)?"
+        },
+        {
+          "name": "constant.numeric.integer.hexadecimal.erde",
+          "match": "(?<![\\w\\d.])0[xX][0-9A-Fa-f]+(?![pPeE.0-9])"
+        },
+        {
+          "name": "constant.numeric.float.erde",
+          "match": "(?<![\\w\\d.])\\d*(\\.\\d+)?([eE]-?\\d*)?"
+        },
+        {
+          "name": "constant.numeric.integer.erde",
+          "match": "(?<![\\w\\d.])\\d+(?![pPeE.0-9])"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.erde",
+          "match": "\\b(do|if|elseif|else|for|in|break|continue|while|repeat|until|try|catch|return)\\b"
+        },
+        {
+          "name": "keyword.operator.erde",
+          "match": "[#~|&<>=+*/%^:.?-]"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.erde",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.erde",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.double.erde",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.erde",
+              "match": "\\\\."
+            }
+          ]
         }
       ]
     }
-  },
-  "scopeName": "source.erde"
+  }
 }

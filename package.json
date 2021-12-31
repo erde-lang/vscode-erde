@@ -1,0 +1,25 @@
+{
+  "name": "vscode-erde",
+  "displayName": "vscode-erde",
+  "description": "VSCode language extension for Erde",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "erde",
+      "aliases": ["Erde", "erde"],
+      "extensions": [".erde"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "erde",
+      "scopeName": "source.erde",
+      "path": "./syntaxes/erde.tmLanguage.json"
+    }]
+  }
+}

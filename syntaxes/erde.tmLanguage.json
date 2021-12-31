@@ -3,36 +3,129 @@
   "name": "Erde",
   "scopeName": "source.erde",
   "patterns": [
-    { "include": "#constants" },
-    { "include": "#keywords" },
-    { "include": "#strings" }
+    { "include": "#comment" },
+    { "include": "#constant" },
+    { "include": "#keyword" },
+    { "include": "#string" }
   ],
   "repository": {
-    "constants": {
+    "comment": {
       "patterns": [
+        {
+          "begin": "(^[ \\t]+)?(?=--)",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.erde"
+            }
+          },
+          "end": "(?!\\G)((?!^)[ \\t]+\\n)?",
+          "endCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.trailing.erde"
+            }
+          },
+          "patterns": [
+            {
+              "begin": "--",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.erde"
+                }
+              },
+              "end": "\\n",
+              "name": "comment.line.double-dash.erde"
+            },
+            {
+              "begin": "--\\[(=*)\\[",
+              "beginCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.begin.erde"
+                }
+              },
+              "end": "\\]\\1\\]",
+              "endCaptures": {
+                "0": {
+                  "name": "punctuation.definition.comment.end.erde"
+                }
+              },
+              "name": "comment.block.erde"
+            }
+          ]
+        }
+      ]
+    },
+    "constant": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.erde",
+          "match": "\\\\."
+        },
         {
           "name": "constant.language",
           "match": "\\b(nil|true|false)\\b"
         },
         {
+          "name": "constant.numeric.float.erde",
+          "match": "\\d*\\.\\d+([eE][+-]?\\d+)?"
+        },
+        {
           "name": "constant.numeric.float.hexadecimal.erde",
-          "match": "(?<![\\w\\d.])0[xX][0-9A-Fa-f]+(\\.[0-9A-Fa-f]+)?([eE]-?\\d*)?([pP][-+]\\d+)?"
+          "match": "0[xX][0-9A-Fa-f]*\\.[0-9A-Fa-f]+([pP][+-]?\\d+)?"
         },
         {
           "name": "constant.numeric.integer.hexadecimal.erde",
-          "match": "(?<![\\w\\d.])0[xX][0-9A-Fa-f]+(?![pPeE.0-9])"
-        },
-        {
-          "name": "constant.numeric.float.erde",
-          "match": "(?<![\\w\\d.])\\d*(\\.\\d+)?([eE]-?\\d*)?"
+          "match": "0[xX][0-9A-Fa-f]+([pP][+-]?\\d+)?"
         },
         {
           "name": "constant.numeric.integer.erde",
-          "match": "(?<![\\w\\d.])\\d+(?![pPeE.0-9])"
+          "match": "\\d+([eE][+-]?\\d+)?"
         }
       ]
     },
-    "keywords": {
+    "escaped_char": {
+      "patterns": [
+        {
+          "match": "\\\\[abfnrtv\\\\\"'\\n{}]",
+          "name": "constant.character.escape.erde"
+        },
+        {
+          "match": "\\\\z[\\n\\t ]*",
+          "name": "constant.character.escape.erde"
+        },
+        {
+          "match": "\\\\\\d{1,3}",
+          "name": "constant.character.escape.byte.erde"
+        },
+        {
+          "match": "\\\\x[0-9A-Fa-f][0-9A-Fa-f]",
+          "name": "constant.character.escape.byte.erde"
+        },
+        {
+          "match": "\\\\u\\{[0-9A-Fa-f]+\\}",
+          "name": "constant.character.escape.unicode.erde"
+        },
+        {
+          "match": "\\\\.",
+          "name": "invalid.illegal.character.escape.erde"
+        }
+      ]
+    },
+    "interpolation": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "captures": {
+            "0": {
+              "name": "punctuation.section.embedded.erde"
+            }
+          },
+          "end": "\\}",
+          "name": "source.erde.embedded.source",
+          "patterns": [{ "include": "$self" }]
+        }
+      ]
+    },
+    "keyword": {
       "patterns": [
         {
           "name": "keyword.control.erde",
@@ -44,28 +137,63 @@
         }
       ]
     },
-    "strings": {
+    "string": {
       "patterns": [
         {
           "name": "string.quoted.single.erde",
           "begin": "'",
-          "end": "'",
-          "patterns": [
-            {
-              "name": "constant.character.escape.erde",
-              "match": "\\\\."
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.erde"
             }
+          },
+          "end": "'",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.erde"
+            }
+          },
+          "patterns": [
+            { "include": "#escaped_char" },
+            { "include": "#interpolation" }
           ]
         },
         {
           "name": "string.quoted.double.erde",
           "begin": "\"",
-          "end": "\"",
-          "patterns": [
-            {
-              "name": "constant.character.escape.erde",
-              "match": "\\\\."
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.erde"
             }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.erde"
+            }
+          },
+          "patterns": [
+            { "include": "#escaped_char" },
+            { "include": "#interpolation" }
+          ]
+        },
+        {
+          "name": "string.quoted.other.multiline.erde",
+          "begin": "(?<!--)\\[(=*)\\[",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.erde"
+            }
+          },
+          "end": "\\]\\1\\][ \\t]*",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.erde"
+            }
+          },
+          "patterns": [
+            { "include": "#escaped_char" },
+            { "include": "#interpolation" }
           ]
         }
       ]

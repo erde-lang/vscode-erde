@@ -4,9 +4,9 @@
   "scopeName": "source.erde",
   "patterns": [
     { "include": "#comments" },
+    { "include": "#keywords" },
     { "include": "#expression" },
-    { "include": "#functions" },
-    { "include": "#keywords" }
+    { "include": "#functions" }
   ],
   "repository": {
     "comments": {
@@ -172,11 +172,11 @@
       "patterns": [
         {
           "name": "storage.modifier.erde",
-          "match": "\\b(local|module|global)\\b"
+          "match": "(?<![.:])\\b(local|module|global)\\b"
         },
         {
           "name": "keyword.control.erde",
-          "match": "\\b(do|if|elseif|else|for|in|break|continue|while|repeat|until|try|catch|return)\\b"
+          "match": "(?<![.:])\\b(do|if|elseif|else|for|in|break|continue|while|repeat|until|try|catch|return)\\b"
         }
       ]
     },

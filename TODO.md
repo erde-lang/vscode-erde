@@ -1,8 +1,8 @@
 # TODO
 
-- multiline declarations (destructure)
-- CHANGELOG
+- icon
 - README
+- CHANGELOG
 - publish extension
 
 - [semantic highlighting](https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide)

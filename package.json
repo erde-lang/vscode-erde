@@ -1,8 +1,14 @@
 {
   "name": "vscode-erde",
-  "displayName": "vscode-erde",
-  "description": "VSCode language extension for Erde",
   "version": "0.0.1",
+  "license": "MIT",
+  "displayName": "Erde",
+  "description": "VSCode language extension for the Erde programming language.",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
   "engines": {
     "vscode": "^1.63.0"
   },
@@ -10,16 +16,25 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "erde",
-      "aliases": ["Erde", "erde"],
-      "extensions": [".erde"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "erde",
-      "scopeName": "source.erde",
-      "path": "./syntaxes/erde.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "erde",
+        "aliases": [
+          "Erde",
+          "erde"
+        ],
+        "extensions": [
+          ".erde"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "erde",
+        "scopeName": "source.erde",
+        "path": "./syntaxes/erde.tmLanguage.json"
+      }
+    ]
   }
 }

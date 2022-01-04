@@ -7,7 +7,7 @@
   "description": "VSCode language extension for the Erde programming language.",
   "icon": "images/icon.png",
   "galleryBanner": {
-    "color": "#C80000",
+    "color": "#2C2C33",
     "theme": "dark"
   },
   "bugs": {

@@ -9,7 +9,7 @@
     { "include": "#expression" },
     {
       "name": "meta.function.erde",
-      "begin": "\\b(function)\\s+((?:[a-zA-Z_][a-zA-Z0-9_]*\\.)*(?:[a-zA-Z_][a-zA-Z0-9_]*:)?[a-zA-Z_][a-zA-Z0-9_]*)\\s*(\\()",
+      "begin": "\\b(function)\\s+((?:[a-zA-Z_][a-zA-Z0-9_]*\\.)*(?:[a-zA-Z_][a-zA-Z0-9_]*:)?[a-zA-Z_][a-zA-Z0-9_]*)(\\()",
       "beginCaptures": {
         "1": { "name": "storage.type.erde" },
         "2": { "name": "entity.name.function.erde" },
@@ -187,7 +187,7 @@
         { "include": "#strings" },
         {
           "name": "entity.name.function.call.erde",
-          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\s*\\()"
+          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\??\\()"
         },
         {
           "name": "variable.other.property.erde",

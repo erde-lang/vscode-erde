@@ -108,7 +108,7 @@
           "match": "(?<![.:])\\b(coroutine|debug|io|math|os|package|string|table)\\b"
         },
         {
-          "match": "(?<![.:])\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b",
+          "match": "(?<![.:])\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b",
           "name": "support.function.erde"
         },
         {
@@ -149,7 +149,7 @@
       "patterns": [
         {
           "name": "meta.declaration",
-          "begin": "(?<=(?:^|\\s+)(?:local|module|global))\\s+(?!function)",
+          "begin": "(?<=(?:^|\\s+)(?:local|global|module|main))\\s+(?!function)",
           "end": "=|\\n",
           "patterns": [
             {
@@ -233,7 +233,7 @@
       "patterns": [
         {
           "name": "storage.modifier.erde",
-          "match": "(?<![.:])\\b(local|module|global)\\b"
+          "match": "(?<![.:])\\b(local|global|module|main)\\b"
         },
         {
           "name": "keyword.control.erde",

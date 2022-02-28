@@ -5,6 +5,12 @@ conventions.
 
 ## [Unreleased]
 
+- support `!` operator
+- support `main` keyword
+- support `goto` keyword
+- support self shorthand ($)
+- fix highlighting for number-index only destructuring ([])
+
 ## [0.0.1]
 
 January 3, 2021

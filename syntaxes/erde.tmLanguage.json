@@ -237,7 +237,7 @@
         },
         {
           "name": "keyword.control.erde",
-          "match": "(?<![.:])\\b(do|if|elseif|else|for|in|break|continue|while|repeat|until|try|catch|return)\\b"
+          "match": "(?<![.:])\\b(do|if|elseif|else|for|in|break|continue|while|repeat|until|try|catch|return|goto)\\b"
         }
       ]
     },

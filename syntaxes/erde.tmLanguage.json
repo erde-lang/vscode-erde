@@ -93,11 +93,11 @@
         },
         {
           "name": "constant.numeric.float.hexadecimal.erde",
-          "match": "0[xX][0-9A-Fa-f]*\\.[0-9A-Fa-f]+([pP][+-]?\\d+)?"
+          "match": "0[xX]\\h*\\.\\h+([pP][+-]?\\d+)?"
         },
         {
           "name": "constant.numeric.integer.hexadecimal.erde",
-          "match": "0[xX][0-9A-Fa-f]+([pP][+-]?\\d+)?"
+          "match": "0[xX]\\h+([pP][+-]?\\d+)?"
         },
         {
           "name": "constant.numeric.integer.erde",
@@ -149,7 +149,7 @@
       "patterns": [
         {
           "name": "meta.declaration",
-          "begin": "(?<=(?:^|\\s+)(?:local|global|module|main))\\s+(?!function)",
+          "begin": "(?<=(?:^|\\s+)(?:local|global|module))\\s+(?!function)",
           "end": "=|\\n",
           "patterns": [
             {
@@ -254,11 +254,11 @@
       "patterns": [
         {
           "name": "storage.modifier.erde",
-          "match": "(?<![.:])\\b(local|global|module|main)\\b"
+          "match": "(?<![.:])\\b(global|local|module)\\b"
         },
         {
           "name": "keyword.control.erde",
-          "match": "(?<![.:])\\b(do|if|elseif|else|for|in|break|continue|while|repeat|until|try|catch|return|goto)\\b"
+          "match": "(?<![.:])\\b(break|catch|continue|do|else|elseif|goto|for|if|in|repeat|return|try|until|while)\\b"
         }
       ]
     },
@@ -309,8 +309,12 @@
     "string_embedded": {
       "patterns": [
         {
+          "name": "string",
+          "match": "\\\\[{}]"
+        },
+        {
           "name": "constant.character.escape.erde",
-          "match": "\\\\[abfnrtv\\\\\"'\\n{}]"
+          "match": "\\\\[abfnrtvz\\\\\"'\\n]"
         },
         {
           "name": "constant.character.escape.byte.erde",
@@ -318,11 +322,11 @@
         },
         {
           "name": "constant.character.escape.byte.erde",
-          "match": "\\\\x[0-9A-Fa-f][0-9A-Fa-f]"
+          "match": "\\\\x\\h{2}"
         },
         {
           "name": "constant.character.escape.unicode.erde",
-          "match": "\\\\u\\{[0-9A-Fa-f]+\\}"
+          "match": "\\\\u\\{\\h+\\}"
         },
         {
           "name": "invalid.illegal.character.escape.erde",

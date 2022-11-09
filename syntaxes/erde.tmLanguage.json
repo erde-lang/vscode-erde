@@ -9,7 +9,7 @@
     { "include": "#expression" },
     {
       "name": "meta.function.erde",
-      "begin": "\\b(function)\\s+((?:[a-zA-Z_][a-zA-Z0-9_]*\\.)*(?:[a-zA-Z_][a-zA-Z0-9_]*:)?[a-zA-Z_][a-zA-Z0-9_]*)(\\()",
+      "begin": "\\b(function)\\s+((?:[a-zA-Z_]\\w*\\.)*(?:[a-zA-Z_]\\w*:)?[a-zA-Z_]\\w*)(\\()",
       "beginCaptures": {
         "1": { "name": "storage.type.erde" },
         "2": { "name": "entity.name.function.erde" },
@@ -22,7 +22,7 @@
       "patterns": [
         {
           "name": "variable.parameter.erde",
-          "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+          "match": "[a-zA-Z_]\\w*"
         },
         {
           "name": "punctuation.separator.arguments.erde",
@@ -37,10 +37,7 @@
       "patterns": [
         {
           "name": "comment.line.shebang.erde",
-          "match": "\\A(#!).*$\\n?",
-          "captures": {
-            "1": { "name": "punctuation.definition.comment.erde" }
-          }
+          "match": "^#!.*$"
         },
         {
           "begin": "(^[ \\t]+)?(?=--)",
@@ -154,7 +151,7 @@
           "patterns": [
             {
               "name": "variable.other.declaration.erde",
-              "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+              "match": "[a-zA-Z_]\\w*"
             },
             {
               "name": "punctuation.separator.declaration.erde",
@@ -188,7 +185,7 @@
       "patterns": [
         {
           "name": "variable.other.declaration.erde",
-          "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+          "match": "[a-zA-Z_]\\w*"
         },
         {
           "name": "punctuation.separator.declaration.erde",
@@ -204,15 +201,15 @@
         { "include": "#strings" },
         {
           "name": "entity.name.function.call.erde",
-          "match": "\\b[a-zA-Z_][a-zA-Z0-9_]*\\b(?=\\??\\()"
+          "match": "\\b[a-zA-Z_]\\w*\\b(?=\\??\\()"
         },
         {
           "name": "variable.other.property.erde",
-          "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_][a-zA-Z0-9_]*)"
+          "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_]\\w*)"
         },
         {
           "name": "variable.other.self.property.erde",
-          "match": "(?<![^.]\\.|:)(?<=\\$)[a-zA-Z_][a-zA-Z0-9_]*"
+          "match": "(?<![^.]\\.|:)(?<=\\$)[a-zA-Z_]\\w*"
         }
       ]
     },
@@ -220,11 +217,11 @@
       "patterns": [
         {
           "name": "variable.parameter.erde",
-          "match": "[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*[-=]>)"
+          "match": "[a-zA-Z_]\\w*(?=\\s*[-=]>)"
         },
         {
           "name": "variable.parameter.erde",
-          "match": "[a-zA-Z_][a-zA-Z0-9_]*(?=\\s*[-=]>)"
+          "match": "[a-zA-Z_]\\w*(?=\\s*[-=]>)"
         },
         {
           "name": "meta.function.erde",
@@ -239,7 +236,7 @@
           "patterns": [
             {
               "name": "variable.parameter.erde",
-              "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+              "match": "[a-zA-Z_]\\w*"
             },
             {
               "name": "punctuation.separator.arguments.erde",
@@ -264,7 +261,7 @@
     },
     "operator": {
       "name": "keyword.operator.erde",
-      "match": "[!#~|&<>=+*/%^:.?-]"
+      "match": "[!#~|&<>=+*/%^-]|\\.{2,3}"
     },
     "strings": {
       "patterns": [

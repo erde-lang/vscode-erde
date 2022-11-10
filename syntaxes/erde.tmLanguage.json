@@ -20,6 +20,7 @@
         "0": { "name": "punctuation.definition.parameters.end.erde" }
       },
       "patterns": [
+        { "include": "#expression" },
         {
           "name": "variable.parameter.erde",
           "match": "[a-zA-Z_]\\w*"
@@ -27,8 +28,7 @@
         {
           "name": "punctuation.separator.arguments.erde",
           "match": ","
-        },
-        { "include": "#expression" }
+        }
       ]
     }
   ],
@@ -208,10 +208,6 @@
         {
           "name": "variable.other.property.erde",
           "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_]\\w*)"
-        },
-        {
-          "name": "variable.other.self.property.erde",
-          "match": "(?<![^.]\\.|:)(?<=\\$)[a-zA-Z_]\\w*"
         }
       ]
     },

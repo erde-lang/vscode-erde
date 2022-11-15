@@ -11,7 +11,5 @@ for version changes.
 - [x] Bracket autosurrounding
 - [x] Comment toggling
 - [x] Auto indentation
-- [ ] Snippets
 - [ ] Folding
-- [ ] Semantic highlighting
 - [ ] Language server?

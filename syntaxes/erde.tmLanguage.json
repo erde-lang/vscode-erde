@@ -5,34 +5,27 @@
   "patterns": [
     { "include": "#comments" },
     { "include": "#keywords" },
-    { "include": "#declaration" },
     { "include": "#expression" },
-    {
-      "name": "meta.function.erde",
-      "begin": "\\b(function)\\s+((?:[a-zA-Z_]\\w*\\.)*(?:[a-zA-Z_]\\w*:)?[a-zA-Z_]\\w*)(\\()",
-      "beginCaptures": {
-        "1": { "name": "storage.type.erde" },
-        "2": { "name": "entity.name.function.erde" },
-        "3": { "name": "punctuation.definition.parameters.begin.erde" }
-      },
-      "end": "\\)",
-      "endCaptures": {
-        "0": { "name": "punctuation.definition.parameters.end.erde" }
-      },
-      "patterns": [
-        {
-          "name": "variable.parameter.erde",
-          "match": "[a-zA-Z_]\\w*"
-        },
-        {
-          "name": "punctuation.separator.arguments.erde",
-          "match": ","
-        },
-        { "include": "#expression" }
-      ]
-    }
+    { "include": "#declaration" }
   ],
   "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.shebang.erde",
+          "match": "^#!.*$"
+        },
+        {
+          "name": "comment.line.erde",
+          "match": "--(?!\\[=*\\[).*$"
+        },
+        {
+          "name": "comment.block.erde",
+          "begin": "--\\[(=*)\\[$",
+          "end": "\\]\\1\\]"
+        }
+      ]
+    },
     "operator": {
       "name": "keyword.operator.erde",
       "match": "[!#~|&<>=+*/%^-]|\\.{2,3}"
@@ -49,33 +42,8 @@
         }
       ]
     },
-    "comments": {
+    "numbers": {
       "patterns": [
-        {
-          "name": "comment.shebang.erde",
-          "match": "^#!.*$"
-        },
-        {
-          "name": "comment.line.erde",
-          "match": "--(?!\\[=*\\[).*$"
-        },
-        {
-          "name": "comment.block.erde",
-          "begin": "--\\[(=*)\\[$",
-          "end": "\\]\\1\\]"
-        }
-      ]
-    },
-    "constants": {
-      "patterns": [
-        {
-          "name": "constant.language.erde",
-          "match": "(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION)\\b|(?<!\\.)\\.{3}(?!\\.)"
-        },
-        {
-          "name": "variable.language.self.erde",
-          "match": "(?<![^.]\\.|:)self"
-        },
         {
           "name": "constant.numeric.hexadecimal.erde",
           "match": "0[xX]\\h*\\.?\\h+([pP][+-]?\\d+)?"
@@ -83,7 +51,11 @@
         {
           "name": "constant.numeric.decimal.erde",
           "match": "\\d*\\.?\\d+([eE][+-]?\\d+)?"
-        },
+        }
+      ]
+    },
+    "stdlib": {
+      "patterns": [
         {
           "name": "support.class.erde",
           "match": "(?<![.:])\\b(coroutine|debug|io|math|os|package|string|table)\\b"
@@ -138,11 +110,23 @@
             {
               "name": "variable.other.declaration.erde",
               "match": "[a-zA-Z_]\\w*"
-            },
-            {
-              "name": "punctuation.separator.declaration.erde",
-              "match": ","
             }
+          ]
+        },
+        {
+          "name": "meta.function.erde",
+          "begin": "\\b(function)\\s+((?:[a-zA-Z_]\\w*\\.)*(?:[a-zA-Z_]\\w*:)?[a-zA-Z_]\\w*)\\(",
+          "beginCaptures": {
+            "1": { "name": "storage.type.erde" },
+            "2": { "name": "entity.name.function.erde" }
+          },
+          "end": "\\)",
+          "patterns": [
+            {
+              "name": "variable.parameter.erde",
+              "match": "[a-zA-Z_]\\w*"
+            },
+            { "include": "#expression" }
           ]
         }
       ]
@@ -156,10 +140,6 @@
         {
           "name": "variable.other.declaration.erde",
           "match": "[a-zA-Z_]\\w*"
-        },
-        {
-          "name": "punctuation.separator.declaration.erde",
-          "match": ","
         }
       ]
     },
@@ -172,19 +152,24 @@
         {
           "name": "variable.other.declaration.erde",
           "match": "[a-zA-Z_]\\w*"
-        },
-        {
-          "name": "punctuation.separator.declaration.erde",
-          "match": ","
         }
       ]
     },
     "expression": {
       "patterns": [
-        { "include": "#arrow_function" },
-        { "include": "#constants" },
         { "include": "#operator" },
+        { "include": "#numbers" },
         { "include": "#strings" },
+        { "include": "#stdlib" },
+        { "include": "#arrow_function" },
+        {
+          "name": "constant.language.erde",
+          "match": "(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION)\\b|(?<!\\.)\\.{3}(?!\\.)"
+        },
+        {
+          "name": "variable.language.self.erde",
+          "match": "(?<![^.]\\.|:)self"
+        },
         {
           "name": "entity.name.function.call.erde",
           "match": "\\b[a-zA-Z_]\\w*\\b(?=\\()"
@@ -203,66 +188,32 @@
         },
         {
           "name": "meta.function.arrow.parameters.destructure_map.erde",
-          "begin": "(\\[)(?=.*\\]\\s*[-=]>)",
-          "beginCaptures": {
-            "1": {
-              "name": "punctuation.definition.parameters.destructure_array.begin.erde"
-            }
-          },
+          "begin": "\\[(?=.*\\]\\s*[-=]>)",
           "end": "\\]",
-          "endCaptures": {
-            "0": {
-              "name": "punctuation.definition.parameters.destructure_array.end.erde"
-            }
-          },
           "patterns": [
             {
               "name": "variable.parameter.erde",
               "match": "[a-zA-Z_]\\w*"
-            },
-            {
-              "name": "punctuation.separator.declaration.erde",
-              "match": ","
             },
             { "include": "#expression" }
           ]
         },
         {
           "name": "meta.function.arrow.parameters.destructure_map.erde",
-          "begin": "(\\{)(?=.*\\}\\s*[-=]>)",
-          "beginCaptures": {
-            "1": {
-              "name": "punctuation.definition.parameters.destructure_map.begin.erde"
-            }
-          },
+          "begin": "\\{(?=.*\\}\\s*[-=]>)",
           "end": "\\}",
-          "endCaptures": {
-            "0": {
-              "name": "punctuation.definition.parameters.destructure_map.end.erde"
-            }
-          },
           "patterns": [
             {
               "name": "variable.parameter.erde",
               "match": "[a-zA-Z_]\\w*"
-            },
-            {
-              "name": "punctuation.separator.declaration.erde",
-              "match": ","
             },
             { "include": "#expression" }
           ]
         },
         {
           "name": "meta.function.arrow.erde",
-          "begin": "(\\()(?=.*\\)\\s*[-=]>)",
-          "beginCaptures": {
-            "1": { "name": "punctuation.definition.parameters.begin.erde" }
-          },
+          "begin": "\\((?=.*\\)\\s*[-=]>)",
           "end": "\\)",
-          "endCaptures": {
-            "0": { "name": "punctuation.definition.parameters.end.erde" }
-          },
           "patterns": [
             { "include": "#expression" },
             { "include": "#destructure_array" },
@@ -270,10 +221,6 @@
             {
               "name": "variable.parameter.erde",
               "match": "[a-zA-Z_]\\w*"
-            },
-            {
-              "name": "punctuation.separator.arguments.erde",
-              "match": ","
             }
           ]
         }
@@ -284,37 +231,19 @@
         {
           "name": "string.quoted.single.erde",
           "begin": "'",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.erde" }
-          },
           "end": "'",
-          "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.erde" }
-          },
           "patterns": [{ "include": "#strings_embedded" }]
         },
         {
           "name": "string.quoted.double.erde",
           "begin": "\"",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.erde" }
-          },
           "end": "\"",
-          "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.erde" }
-          },
           "patterns": [{ "include": "#strings_embedded" }]
         },
         {
           "name": "string.quoted.other.multiline.erde",
           "begin": "(?<!--)\\[(=*)\\[",
-          "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.erde" }
-          },
           "end": "\\]\\1\\][ \\t]*",
-          "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.erde" }
-          },
           "patterns": [{ "include": "#strings_embedded" }]
         }
       ]
@@ -348,9 +277,6 @@
         {
           "name": "meta.embedded.expression meta.template.expression",
           "begin": "\\{",
-          "captures": {
-            "0": { "name": "punctuation.section.embedded.erde" }
-          },
           "end": "\\}",
           "patterns": [{ "include": "#expression" }]
         }

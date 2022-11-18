@@ -3,13 +3,13 @@
   "name": "Erde",
   "scopeName": "source.erde",
   "patterns": [
-    { "include": "#comments" },
-    { "include": "#keywords" },
-    { "include": "#expression" },
-    { "include": "#declaration" }
+    { "include": "#comment" },
+    { "include": "#keyword" },
+    { "include": "#statement" },
+    { "include": "#expression" }
   ],
   "repository": {
-    "comments": {
+    "comment": {
       "patterns": [
         {
           "name": "comment.line.erde",
@@ -26,8 +26,12 @@
         }
       ]
     },
-    "keywords": {
+    "keyword": {
       "patterns": [
+        {
+          "name": "storage.type.erde",
+          "match": "(?<![.:])\\bfunction\\b"
+        },
         {
           "name": "storage.modifier.erde",
           "match": "(?<![.:])\\b(global|local|module)\\b"
@@ -42,7 +46,7 @@
       "name": "keyword.operator.erde",
       "match": "[!#~|&<>=+*/%^-]|\\.{2,3}"
     },
-    "numbers": {
+    "number": {
       "patterns": [
         {
           "name": "constant.numeric.erde",
@@ -54,29 +58,29 @@
         }
       ]
     },
-    "strings": {
+    "string": {
       "patterns": [
         {
           "name": "string.quoted.single.erde",
           "begin": "'",
           "end": "'",
-          "patterns": [{ "include": "#strings_embedded" }]
+          "patterns": [{ "include": "#string_embedded" }]
         },
         {
           "name": "string.quoted.double.erde",
           "begin": "\"",
           "end": "\"",
-          "patterns": [{ "include": "#strings_embedded" }]
+          "patterns": [{ "include": "#string_embedded" }]
         },
         {
           "name": "string.quoted.other.erde",
           "begin": "(?<!--)\\[(=*)\\[",
           "end": "\\]\\1\\][ \\t]*",
-          "patterns": [{ "include": "#strings_embedded" }]
+          "patterns": [{ "include": "#string_embedded" }]
         }
       ]
     },
-    "strings_embedded": {
+    "string_embedded": {
       "patterns": [
         {
           "name": "string.interpolated.erde",
@@ -103,7 +107,6 @@
           "match": "\\\\."
         },
         {
-          "name": "meta.embedded.expression meta.template.expression",
           "begin": "\\{",
           "end": "\\}",
           "patterns": [{ "include": "#expression" }]
@@ -154,100 +157,6 @@
         }
       ]
     },
-    "expression": {
-      "patterns": [
-        { "include": "#operator" },
-        { "include": "#numbers" },
-        { "include": "#strings" },
-        { "include": "#stdlib" },
-        { "include": "#arrow_function" },
-        {
-          "name": "constant.language.erde",
-          "match": "(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION)\\b|(?<!\\.)\\.{3}(?!\\.)"
-        },
-        {
-          "name": "variable.language.erde",
-          "match": "(?<![^.]\\.|:)self"
-        },
-        {
-          "name": "entity.name.function.erde",
-          "match": "\\b[a-zA-Z_]\\w*\\b(?=\\()"
-        },
-        {
-          "name": "variable.other.erde",
-          "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_]\\w*)"
-        }
-      ]
-    },
-    "destructure_map": {
-      "begin": "\\{",
-      "end": "\\}",
-      "patterns": [
-        {
-          "begin": "=",
-          "beginCaptures": { "0": { "name": "keyword.operator.erde" } },
-          "end": "(?=[,}])",
-          "patterns": [{ "include": "#expression" }]
-        },
-        {
-          "begin": "[a-zA-Z_]\\w*(?=\\s*:)",
-          "beginCaptures": { "0": { "name": "variable.other.property.erde" } },
-          "end": "(?<:\\s*)[a-zA-Z_]\\w*",
-          "endCaptures": { "0": { "name": "variable.other.declaration.erde" } }
-        },
-        {
-          "name": "variable.other.declaration.erde",
-          "match": "[a-zA-Z_]\\w*"
-        }
-      ]
-    },
-    "destructure_array": {
-      "begin": "\\[",
-      "end": "\\]",
-      "patterns": [
-        {
-          "begin": "=",
-          "beginCaptures": { "0": { "name": "keyword.operator.erde" } },
-          "end": "(?=[,\\]])",
-          "patterns": [{ "include": "#expression" }]
-        },
-        {
-          "name": "variable.other.declaration.erde",
-          "match": "[a-zA-Z_]\\w*"
-        }
-      ]
-    },
-    "declaration": {
-      "patterns": [
-        {
-          "begin": "(?<=(?:^|\\s+)(?:local|global|module)\\s+)(?!function)",
-          "end": "(?<=([a-zA-Z_]\\w*)|\\}|\\])(?!\\s*,)",
-          "patterns": [
-            { "include": "#destructure_map" },
-            { "include": "#destructure_array" },
-            {
-              "name": "variable.other.declaration.erde",
-              "match": "[a-zA-Z_]\\w*"
-            }
-          ]
-        },
-        {
-          "begin": "\\b(function)\\s+(?:([a-zA-Z_]\\w*\\.)*([a-zA-Z_]\\w*:)?)([a-zA-Z_]\\w*)\\(",
-          "beginCaptures": {
-            "1": { "name": "storage.type.erde" },
-            "2": { "name": "entity.name.function.erde" }
-          },
-          "end": "\\)",
-          "patterns": [
-            {
-              "name": "variable.parameter.erde",
-              "match": "[a-zA-Z_]\\w*"
-            },
-            { "include": "#expression" }
-          ]
-        }
-      ]
-    },
     "arrow_function": {
       "patterns": [
         {
@@ -288,6 +197,83 @@
             },
             { "include": "#expression" }
           ]
+        }
+      ]
+    },
+    "expression": {
+      "patterns": [
+        { "include": "#operator" },
+        { "include": "#number" },
+        { "include": "#string" },
+        { "include": "#stdlib" },
+        { "include": "#arrow_function" },
+        {
+          "name": "constant.language.erde",
+          "match": "(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION)\\b|(?<!\\.)\\.{3}(?!\\.)"
+        },
+        {
+          "name": "variable.language.erde",
+          "match": "(?<![^.]\\.|:)self"
+        },
+        {
+          "name": "entity.name.function.erde",
+          "match": "\\b[a-zA-Z_]\\w*\\b(?=\\()"
+        },
+        {
+          "name": "variable.other.erde",
+          "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_]\\w*)"
+        }
+      ]
+    },
+    "var": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "end": "\\}",
+          "patterns": [
+            {
+              "begin": "=",
+              "beginCaptures": { "0": { "name": "keyword.operator.erde" } },
+              "end": "(?=[,}])",
+              "patterns": [{ "include": "#expression" }]
+            },
+            {
+              "begin": "[a-zA-Z_]\\w*(?=\\s*:)",
+              "beginCaptures": { "0": { "name": "variable.other.erde" } },
+              "end": "(?<:\\s*)[a-zA-Z_]\\w*",
+              "endCaptures": { "0": { "name": "variable.other.erde" } }
+            },
+            { "name": "variable.other.erde", "match": "[a-zA-Z_]\\w*" }
+          ]
+        },
+        {
+          "begin": "\\[",
+          "end": "\\]",
+          "patterns": [
+            {
+              "begin": "=",
+              "beginCaptures": { "0": { "name": "keyword.operator.erde" } },
+              "end": "(?=[,\\]])",
+              "patterns": [{ "include": "#expression" }]
+            },
+            { "name": "variable.other.erde", "match": "[a-zA-Z_]\\w*" }
+          ]
+        },
+        { "name": "variable.other.erde", "match": "[a-zA-Z_]\\w*" }
+      ]
+    },
+    "statement": {
+      "patterns": [
+        {
+          "begin": "(?<=(?:^|\\s+)(?:local|global|module)\\s+)(?!function)",
+          "end": "(?<=([a-zA-Z_]\\w*)|\\}|\\])(?!\\s*,)",
+          "patterns": [{ "include": "#var" }]
+        },
+        {
+          "begin": "(?<=(?:^|\\s+)function\\s+(?:[a-zA-Z_]\\w*\\.)*(?:[a-zA-Z_]\\w*:)?)([a-zA-Z_]\\w*)\\(",
+          "beginCaptures": { "1": { "name": "entity.name.function.erde" } },
+          "end": "\\)",
+          "patterns": [{ "include": "#var" }, { "include": "#expression" }]
         }
       ]
     }

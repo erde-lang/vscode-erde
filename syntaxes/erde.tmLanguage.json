@@ -281,9 +281,18 @@
           "patterns": [{ "include": "#var" }]
         },
         {
-          "begin": "(?<=(?:^|\\s+)catch\\s+)",
-          "end": "(?<=(?:[a-zA-Z_]\\w*)|\\}|\\])(?=\\s+\\{)",
+          "begin": "(?<=(?:^|\\s+)catch\\s+)(?=\\{.*\\}\\s*\\{)",
+          "end": "(?<=\\})(?=\\s*\\{)",
           "patterns": [{ "include": "#var" }]
+        },
+        {
+          "begin": "(?<=(?:^|\\s+)catch\\s+)(?=\\[.*\\]\\s*\\{)",
+          "end": "(?<=\\])(?=\\s*\\{)",
+          "patterns": [{ "include": "#var" }]
+        },
+        {
+          "name": "variable.other.erde",
+          "match": "(?<=(?:^|\\s+)catch\\s+)[a-zA-Z_]\\w*(?=\\s*\\{)"
         }
       ]
     }

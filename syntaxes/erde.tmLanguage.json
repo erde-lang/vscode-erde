@@ -274,6 +274,16 @@
           "beginCaptures": { "1": { "name": "entity.name.function.erde" } },
           "end": "\\)",
           "patterns": [{ "include": "#var" }, { "include": "#expression" }]
+        },
+        {
+          "begin": "(?<=(?:^|\\s+)for\\s+)",
+          "end": "(?=in|=)",
+          "patterns": [{ "include": "#var" }]
+        },
+        {
+          "begin": "(?<=(?:^|\\s+)catch\\s+)",
+          "end": "(?<=(?:[a-zA-Z_]\\w*)|\\}|\\])(?=\\s+\\{)",
+          "patterns": [{ "include": "#var" }]
         }
       ]
     }

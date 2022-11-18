@@ -12,7 +12,7 @@
     "comments": {
       "patterns": [
         {
-          "name": "comment.line.shebang.erde",
+          "name": "comment.line.erde",
           "match": "^#!.*$"
         },
         {
@@ -26,10 +26,6 @@
         }
       ]
     },
-    "operator": {
-      "name": "keyword.operator.erde",
-      "match": "[!#~|&<>=+*/%^-]|\\.{2,3}"
-    },
     "keywords": {
       "patterns": [
         {
@@ -42,187 +38,19 @@
         }
       ]
     },
+    "operator": {
+      "name": "keyword.operator.erde",
+      "match": "[!#~|&<>=+*/%^-]|\\.{2,3}"
+    },
     "numbers": {
       "patterns": [
         {
-          "name": "constant.numeric.hexadecimal.erde",
+          "name": "constant.numeric.erde",
           "match": "0[xX]\\h*\\.?\\h+([pP][+-]?\\d+)?"
         },
         {
-          "name": "constant.numeric.decimal.erde",
+          "name": "constant.numeric.erde",
           "match": "\\d*\\.?\\d+([eE][+-]?\\d+)?"
-        }
-      ]
-    },
-    "stdlib": {
-      "patterns": [
-        {
-          "name": "support.class.erde",
-          "match": "(?<![.:])\\b(coroutine|debug|io|math|os|package|string|table)\\b"
-        },
-        {
-          "name": "support.function.erde",
-          "match": "(?<![.:])\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b"
-        },
-        {
-          "name": "support.function.coroutine.erde",
-          "match": "(?<![.:]\\bcoroutine\\.)(?<=\\bcoroutine\\.)(?:create|resume|running|status|wrap|yield)\\b"
-        },
-        {
-          "name": "support.function.debug.erde",
-          "match": "(?<![.:]\\bdebug\\.)(?<=\\bdebug\\.)(?:debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback)\\b"
-        },
-        {
-          "name": "support.function.io.erde",
-          "match": "(?<![.:]\\bio\\.)(?<=\\bio\\.)(?:close|flush|input|lines|open|output|popen|read|tmpfile|type|write)\\b"
-        },
-        {
-          "name": "support.function.math.erde",
-          "match": "(?<![.:]\\bmath\\.)(?<=\\bmath\\.)(?:abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)\\b"
-        },
-        {
-          "name": "support.function.os.erde",
-          "match": "(?<![.:]\\bos\\.)(?<=\\bos\\.)(?:clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)\\b"
-        },
-        {
-          "name": "support.function.package.erde",
-          "match": "(?<![.:]\\bpackage\\.)(?<=\\bpackage\\.)(?:cpath|loaded|loadlib|path|preload|seeall)\\b"
-        },
-        {
-          "name": "support.function.string.erde",
-          "match": "(?<![.:]\\bstring\\.)(?<=\\bstring\\.)(?:byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)\\b"
-        },
-        {
-          "name": "support.function.table.erde",
-          "match": "(?<![.:]\\btable\\.)(?<=\\btable\\.)(?:concat|insert|maxn|remove|sort)\\b"
-        }
-      ]
-    },
-    "declaration": {
-      "patterns": [
-        {
-          "name": "meta.declaration",
-          "begin": "(?<=(?:^|\\s+)(?:local|global|module))\\s+(?!function)",
-          "end": "=|\\n",
-          "patterns": [
-            { "include": "#destructure_array" },
-            { "include": "#destructure_map" },
-            {
-              "name": "variable.other.declaration.erde",
-              "match": "[a-zA-Z_]\\w*"
-            }
-          ]
-        },
-        {
-          "name": "meta.function.erde",
-          "begin": "\\b(function)\\s+((?:[a-zA-Z_]\\w*\\.)*(?:[a-zA-Z_]\\w*:)?[a-zA-Z_]\\w*)\\(",
-          "beginCaptures": {
-            "1": { "name": "storage.type.erde" },
-            "2": { "name": "entity.name.function.erde" }
-          },
-          "end": "\\)",
-          "patterns": [
-            {
-              "name": "variable.parameter.erde",
-              "match": "[a-zA-Z_]\\w*"
-            },
-            { "include": "#expression" }
-          ]
-        }
-      ]
-    },
-    "destructure_array": {
-      "name": "meta.destructure.array",
-      "begin": "\\[",
-      "end": "\\]",
-      "patterns": [
-        { "include": "#expression" },
-        {
-          "name": "variable.other.declaration.erde",
-          "match": "[a-zA-Z_]\\w*"
-        }
-      ]
-    },
-    "destructure_map": {
-      "name": "meta.destructure.map",
-      "begin": "\\{",
-      "end": "\\}",
-      "patterns": [
-        { "include": "#expression" },
-        {
-          "name": "variable.other.declaration.erde",
-          "match": "[a-zA-Z_]\\w*"
-        }
-      ]
-    },
-    "expression": {
-      "patterns": [
-        { "include": "#operator" },
-        { "include": "#numbers" },
-        { "include": "#strings" },
-        { "include": "#stdlib" },
-        { "include": "#arrow_function" },
-        {
-          "name": "constant.language.erde",
-          "match": "(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION)\\b|(?<!\\.)\\.{3}(?!\\.)"
-        },
-        {
-          "name": "variable.language.self.erde",
-          "match": "(?<![^.]\\.|:)self"
-        },
-        {
-          "name": "entity.name.function.call.erde",
-          "match": "\\b[a-zA-Z_]\\w*\\b(?=\\()"
-        },
-        {
-          "name": "variable.other.property.erde",
-          "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_]\\w*)"
-        }
-      ]
-    },
-    "arrow_function": {
-      "patterns": [
-        {
-          "name": "variable.parameter.erde",
-          "match": "[a-zA-Z_]\\w*(?=\\s*[-=]>)"
-        },
-        {
-          "name": "meta.function.arrow.parameters.destructure_map.erde",
-          "begin": "\\[(?=.*\\]\\s*[-=]>)",
-          "end": "\\]",
-          "patterns": [
-            {
-              "name": "variable.parameter.erde",
-              "match": "[a-zA-Z_]\\w*"
-            },
-            { "include": "#expression" }
-          ]
-        },
-        {
-          "name": "meta.function.arrow.parameters.destructure_map.erde",
-          "begin": "\\{(?=.*\\}\\s*[-=]>)",
-          "end": "\\}",
-          "patterns": [
-            {
-              "name": "variable.parameter.erde",
-              "match": "[a-zA-Z_]\\w*"
-            },
-            { "include": "#expression" }
-          ]
-        },
-        {
-          "name": "meta.function.arrow.erde",
-          "begin": "\\((?=.*\\)\\s*[-=]>)",
-          "end": "\\)",
-          "patterns": [
-            { "include": "#expression" },
-            { "include": "#destructure_array" },
-            { "include": "#destructure_map" },
-            {
-              "name": "variable.parameter.erde",
-              "match": "[a-zA-Z_]\\w*"
-            }
-          ]
         }
       ]
     },
@@ -241,7 +69,7 @@
           "patterns": [{ "include": "#strings_embedded" }]
         },
         {
-          "name": "string.quoted.other.multiline.erde",
+          "name": "string.quoted.other.erde",
           "begin": "(?<!--)\\[(=*)\\[",
           "end": "\\]\\1\\][ \\t]*",
           "patterns": [{ "include": "#strings_embedded" }]
@@ -251,7 +79,7 @@
     "strings_embedded": {
       "patterns": [
         {
-          "name": "string.character.escape.interpolation.erde",
+          "name": "string.interpolated.erde",
           "match": "\\\\[{}]"
         },
         {
@@ -259,19 +87,19 @@
           "match": "\\\\[abfnrtvz\\\\\"'\\n]"
         },
         {
-          "name": "constant.character.escape.byte.erde",
+          "name": "constant.character.escape.erde",
           "match": "\\\\\\d{1,3}"
         },
         {
-          "name": "constant.character.escape.byte.erde",
+          "name": "constant.character.escape.erde",
           "match": "\\\\x\\h{2}"
         },
         {
-          "name": "constant.character.escape.unicode.erde",
+          "name": "constant.character.escape.erde",
           "match": "\\\\u\\{\\h+\\}"
         },
         {
-          "name": "invalid.illegal.character.escape.erde",
+          "name": "invalid.illegal.erde",
           "match": "\\\\."
         },
         {
@@ -279,6 +107,187 @@
           "begin": "\\{",
           "end": "\\}",
           "patterns": [{ "include": "#expression" }]
+        }
+      ]
+    },
+    "stdlib": {
+      "patterns": [
+        {
+          "name": "support.class.erde",
+          "match": "(?<![.:])\\b(coroutine|debug|io|math|os|package|string|table)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:])\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bcoroutine\\.)(?<=\\bcoroutine\\.)(?:create|resume|running|status|wrap|yield)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bdebug\\.)(?<=\\bdebug\\.)(?:debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bio\\.)(?<=\\bio\\.)(?:close|flush|input|lines|open|output|popen|read|tmpfile|type|write)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bmath\\.)(?<=\\bmath\\.)(?:abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bos\\.)(?<=\\bos\\.)(?:clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bpackage\\.)(?<=\\bpackage\\.)(?:cpath|loaded|loadlib|path|preload|seeall)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\bstring\\.)(?<=\\bstring\\.)(?:byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)\\b"
+        },
+        {
+          "name": "support.function.erde",
+          "match": "(?<![.:]\\btable\\.)(?<=\\btable\\.)(?:concat|insert|maxn|remove|sort)\\b"
+        }
+      ]
+    },
+    "expression": {
+      "patterns": [
+        { "include": "#operator" },
+        { "include": "#numbers" },
+        { "include": "#strings" },
+        { "include": "#stdlib" },
+        { "include": "#arrow_function" },
+        {
+          "name": "constant.language.erde",
+          "match": "(?<![^.]\\.|:)\\b(false|nil|true|_G|_VERSION)\\b|(?<!\\.)\\.{3}(?!\\.)"
+        },
+        {
+          "name": "variable.language.erde",
+          "match": "(?<![^.]\\.|:)self"
+        },
+        {
+          "name": "entity.name.function.erde",
+          "match": "\\b[a-zA-Z_]\\w*\\b(?=\\()"
+        },
+        {
+          "name": "variable.other.erde",
+          "match": "(?<=[^.]\\.|:)\\b([a-zA-Z_]\\w*)"
+        }
+      ]
+    },
+    "destructure_map": {
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [
+        {
+          "begin": "=",
+          "beginCaptures": { "0": { "name": "keyword.operator.erde" } },
+          "end": "(?=[,}])",
+          "patterns": [{ "include": "#expression" }]
+        },
+        {
+          "begin": "[a-zA-Z_]\\w*(?=\\s*:)",
+          "beginCaptures": { "0": { "name": "variable.other.property.erde" } },
+          "end": "(?<:\\s*)[a-zA-Z_]\\w*",
+          "endCaptures": { "0": { "name": "variable.other.declaration.erde" } }
+        },
+        {
+          "name": "variable.other.declaration.erde",
+          "match": "[a-zA-Z_]\\w*"
+        }
+      ]
+    },
+    "destructure_array": {
+      "begin": "\\[",
+      "end": "\\]",
+      "patterns": [
+        {
+          "begin": "=",
+          "beginCaptures": { "0": { "name": "keyword.operator.erde" } },
+          "end": "(?=[,\\]])",
+          "patterns": [{ "include": "#expression" }]
+        },
+        {
+          "name": "variable.other.declaration.erde",
+          "match": "[a-zA-Z_]\\w*"
+        }
+      ]
+    },
+    "declaration": {
+      "patterns": [
+        {
+          "begin": "(?<=(?:^|\\s+)(?:local|global|module)\\s+)(?!function)",
+          "end": "(?<=([a-zA-Z_]\\w*)|\\}|\\])(?!\\s*,)",
+          "patterns": [
+            { "include": "#destructure_map" },
+            { "include": "#destructure_array" },
+            {
+              "name": "variable.other.declaration.erde",
+              "match": "[a-zA-Z_]\\w*"
+            }
+          ]
+        },
+        {
+          "begin": "\\b(function)\\s+(?:([a-zA-Z_]\\w*\\.)*([a-zA-Z_]\\w*:)?)([a-zA-Z_]\\w*)\\(",
+          "beginCaptures": {
+            "1": { "name": "storage.type.erde" },
+            "2": { "name": "entity.name.function.erde" }
+          },
+          "end": "\\)",
+          "patterns": [
+            {
+              "name": "variable.parameter.erde",
+              "match": "[a-zA-Z_]\\w*"
+            },
+            { "include": "#expression" }
+          ]
+        }
+      ]
+    },
+    "arrow_function": {
+      "patterns": [
+        {
+          "name": "variable.parameter.erde",
+          "match": "[a-zA-Z_]\\w*(?=\\s*[-=]>)"
+        },
+        {
+          "begin": "\\[(?=.*\\]\\s*[-=]>)",
+          "end": "\\]",
+          "patterns": [
+            {
+              "name": "variable.parameter.erde",
+              "match": "[a-zA-Z_]\\w*"
+            },
+            { "include": "#expression" }
+          ]
+        },
+        {
+          "begin": "\\{(?=.*\\}\\s*[-=]>)",
+          "end": "\\}",
+          "patterns": [
+            {
+              "name": "variable.parameter.erde",
+              "match": "[a-zA-Z_]\\w*"
+            },
+            { "include": "#expression" }
+          ]
+        },
+        {
+          "begin": "\\((?=.*\\)\\s*[-=]>)",
+          "end": "\\)",
+          "patterns": [
+            { "include": "#destructure_array" },
+            { "include": "#destructure_map" },
+            {
+              "name": "variable.parameter.erde",
+              "match": "[a-zA-Z_]\\w*"
+            },
+            { "include": "#expression" }
+          ]
         }
       ]
     }

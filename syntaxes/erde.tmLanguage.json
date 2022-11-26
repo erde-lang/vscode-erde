@@ -44,7 +44,7 @@
     },
     "operator": {
       "name": "keyword.operator.erde",
-      "match": "[!#~|&<>=+*/%^-]|\\.{2,3}"
+      "match": "[!#~|&<>=+*/%^-]|((?<!\\.)\\.{2}(?!\\.))"
     },
     "number": {
       "patterns": [

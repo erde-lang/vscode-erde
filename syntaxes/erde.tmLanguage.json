@@ -6,6 +6,10 @@
     { "include": "#comment" },
     { "include": "#keyword" },
     { "include": "#statement" },
+    {
+      "match": "[a-zA-Z_]\\w*(?=\\s*=(?!=))",
+      "name": "variable.other.erde"
+    },
     { "include": "#expression" }
   ],
   "repository": {

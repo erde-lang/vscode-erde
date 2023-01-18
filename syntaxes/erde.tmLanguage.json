@@ -42,7 +42,7 @@
         },
         {
           "name": "keyword.control.erde",
-          "match": "(?<![.:])\\b(break|catch|continue|do|else|elseif|goto|for|if|in|repeat|return|try|until|while)\\b"
+          "match": "(?<![.:])\\b(break|continue|do|else|elseif|goto|for|if|in|repeat|return|until|while)\\b"
         }
       ]
     },
@@ -283,20 +283,6 @@
           "begin": "(?<=(?:^|\\s+)for\\s+)",
           "end": "(?=in|=)",
           "patterns": [{ "include": "#var" }]
-        },
-        {
-          "begin": "(?<=(?:^|\\s+)catch\\s+)(?=\\{.*\\}\\s*\\{)",
-          "end": "(?<=\\})(?=\\s*\\{)",
-          "patterns": [{ "include": "#var" }]
-        },
-        {
-          "begin": "(?<=(?:^|\\s+)catch\\s+)(?=\\[.*\\]\\s*\\{)",
-          "end": "(?<=\\])(?=\\s*\\{)",
-          "patterns": [{ "include": "#var" }]
-        },
-        {
-          "name": "variable.other.erde",
-          "match": "(?<=(?:^|\\s+)catch\\s+)[a-zA-Z_]\\w*(?=\\s*\\{)"
         }
       ]
     }

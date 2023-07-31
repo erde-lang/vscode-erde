@@ -95,11 +95,11 @@
       "patterns": [
         {
           "name": "constant.numeric.hex.erde",
-          "match": "0[xX]\\h*\\.?\\h+([pP][+-]?\\d+)?"
+          "match": "(?<!\\w)0[xX]\\h*\\.?\\h+([pP][+-]?\\d+)?"
         },
         {
           "name": "constant.numeric.decimal.erde",
-          "match": "\\d*\\.?\\d+([eE][+-]?\\d+)?"
+          "match": "(?<!\\w)\\d*\\.?\\d+([eE][+-]?\\d+)?"
         }
       ]
     },
